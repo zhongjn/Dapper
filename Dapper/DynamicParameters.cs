@@ -43,6 +43,20 @@ namespace Dapper
             AddDynamicParams(template);
         }
 
+
+        /// <summary>
+        /// Append a dictionary full of params to the dynamic
+        /// </summary>
+        /// <param name="dict"></param>
+        public void AddDynamicParams<T>(IDictionary<string, T> dict)
+        {
+            foreach (var kvp in dict)
+            {
+                Add(kvp.Key, kvp.Value, null, null, null);
+            }
+        }
+
+
         /// <summary>
         /// Append a whole object full of params to the dynamic
         /// EG: AddDynamicParams(new {A = 1, B = 2}) // will add property A and B to the dynamic
@@ -56,6 +70,7 @@ namespace Dapper
                 var subDynamic = obj as DynamicParameters;
                 if (subDynamic == null)
                 {
+                    //KeyValuePair< dic;
                     var dictionary = obj as IEnumerable<KeyValuePair<string, object>>;
                     if (dictionary == null)
                     {
